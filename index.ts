@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { createYoga, createSchema } from "graphql-yoga";
 import { readFileSync } from "fs";
 import { resolvers } from "./src/resolvers";
