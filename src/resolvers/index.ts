@@ -1,11 +1,12 @@
 import { collectionResolvers } from "./collectionResolvers";
+import { documentResolvers } from "./documentResolvers";
 import { prisma } from "../lib/prisma";
 
 export const resolvers = {
   Query: {
     collections: collectionResolvers.collections,
     collection: collectionResolvers.collection,
-    documents: () => ({ items: [], nextCursor: null }), // TODO: next step
+    documents: documentResolvers.documents,
   },
   Collection: {
     documents: async (parent: { id: string }) => {
@@ -16,20 +17,10 @@ export const resolvers = {
     },
   },
   Mutation: {
-    createCollection: () => {
-      throw new Error("Not implemented yet");
-    },
-    createDocument: () => {
-      throw new Error("Not implemented yet");
-    },
-    updateDocument: () => {
-      throw new Error("Not implemented yet");
-    },
-    deleteDocument: () => {
-      throw new Error("Not implemented yet");
-    },
-    moveDocument: () => {
-      throw new Error("Not implemented yet");
-    },
+    createCollection: collectionResolvers.createCollection,
+    createDocument: documentResolvers.createDocument,
+    updateDocument: documentResolvers.updateDocument,
+    deleteDocument: documentResolvers.deleteDocument,
+    moveDocument: documentResolvers.moveDocument,
   },
 };
