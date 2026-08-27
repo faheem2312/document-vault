@@ -1,5 +1,6 @@
 import { prisma } from "../lib/prisma";
 import { validateSlug } from "../lib/validation";
+import { validationError } from "../lib/errors";
 
 interface CreateCollectionArgs {
   name: string;
@@ -22,11 +23,22 @@ export const collectionResolvers = {
   createCollection: async (_parent: unknown, args: CreateCollectionArgs) => {
     validateSlug(args.slug);
 
-    return prisma.collection.create({
-      data: {
-        name: args.name,
-        slug: args.slug,
-      },
-    });
+    try {
+      return await prisma.collection.create({
+        data: {
+          name: args.name,
+          slug: args.slug,
+        },
+      });
+    } catch (error) {
+      if (
+        error instanceof Error &&
+        "code" in error &&
+        (error as { code: string }).code === "P2002"
+      ) {
+        throw validationError(`A collection with slug "${args.slug}" already exists.`);
+      }
+      throw error;
+    }
   },
 };
