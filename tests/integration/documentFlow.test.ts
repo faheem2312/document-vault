@@ -52,7 +52,7 @@ describe("integration: document lifecycle against real Postgres", () => {
     const result = await documentResolvers.documents(undefined, {
       search: "onboarding",
     });
-    const found = result.items.find((d) => d.id === documentId);
+    const found = result.items.find((d: { id: string }) => d.id === documentId);
     expect(found).toBeDefined();
   });
 
@@ -75,7 +75,7 @@ describe("integration: document lifecycle against real Postgres", () => {
     const result = await documentResolvers.documents(undefined, {
       collectionId: collectionBId,
     });
-    expect(result.items.some((d) => d.id === documentId)).toBe(true);
+    expect(result.items.some((d: { id: string }) => d.id === documentId)).toBe(true);
   });
 
   test("deletes the document", async () => {
