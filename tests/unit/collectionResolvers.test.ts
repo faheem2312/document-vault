@@ -41,7 +41,7 @@ describe("collectionResolvers", () => {
 
   describe("createCollection", () => {
     test("creates a collection with a valid slug", async () => {
-      const fakeCollection = { id: "1", name: "Design", slug: "design" };
+      const fakeCollection = { id: "1", name: "Design", slug: "design", createdAt: new Date() };
       mockCreate.mockResolvedValue(fakeCollection);
 
       const result = await collectionResolvers.createCollection(undefined, {

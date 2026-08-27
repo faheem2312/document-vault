@@ -65,7 +65,7 @@ describe("documentResolvers", () => {
 
       await documentResolvers.documents(undefined, { search: "onboarding" });
 
-      const calledWith = mockDocFindMany.mock.calls[0][0];
+      const calledWith = mockDocFindMany.mock.calls[0]![0];
       expect(calledWith.where.OR).toEqual([
         { title: { contains: "onboarding", mode: "insensitive" } },
         { content: { contains: "onboarding", mode: "insensitive" } },
@@ -110,7 +110,15 @@ describe("documentResolvers", () => {
 
     test("creates a document when input is valid", async () => {
       mockCollectionFindUnique.mockResolvedValue({ id: "col-1" });
-      const fakeDoc = { id: "doc-1", title: "Valid Title" };
+      const fakeDoc = {
+        id: "doc-1",
+        title: "Valid Title",
+        content: "Valid content",
+        tags: [],
+        isArchived: false,
+        createdAt: new Date(),
+        collectionId: "col-1",
+      };
       mockDocCreate.mockResolvedValue(fakeDoc);
 
       const result = await documentResolvers.createDocument(undefined, {
@@ -142,7 +150,7 @@ describe("documentResolvers", () => {
       });
 
       expect(result.isArchived).toBe(true);
-      const calledWith = mockDocUpdate.mock.calls[0][0];
+      const calledWith = mockDocUpdate.mock.calls[0]![0];
       expect(calledWith.data).toEqual({ isArchived: true });
     });
   });
