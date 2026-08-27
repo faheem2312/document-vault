@@ -24,7 +24,8 @@
     "gendb": "bunx prisma migrate dev",
     "typecheck": "tsc --noEmit",
     "test": "bun test",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "sanity": "bun run lint && bun run typecheck && bun run test"
   },
   "type": "module"
 }
