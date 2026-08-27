@@ -23,7 +23,9 @@
     "dev": "bun run index.ts",
     "gendb": "bunx prisma migrate dev",
     "typecheck": "tsc --noEmit",
-    "test": "bun test",
+    "test:unit": "bun test tests/unit",
+    "test:integration": "bun test tests/integration",
+    "test": "bun run test:unit && bun run test:integration",
     "lint": "eslint .",
     "sanity": "bun run lint && bun run typecheck && bun run test"
   },
